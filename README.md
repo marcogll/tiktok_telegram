@@ -1,77 +1,49 @@
-# 🎵 Telegram TikTok Downloader Bot
+# 🎵 Telegram Social Media Downloader Bot
 
-Bot / userbot automatizado en Python que monitorea un grupo específico de Telegram y descarga videos de TikTok enviados por usuarios autorizados.
+Bot / userbot automatizado en Python que monitorea un grupo específico de Telegram y descarga videos de TikTok e Instagram enviados por usuarios autorizados.
 
-Gracias a la integración con `yt-dlp`, los videos se descargan sin marca de agua y sin la pantalla final animada del logo de TikTok, de forma nativa.
+Gracias a la integración con `yt-dlp`, los videos se descargan sin marca de agua.
 
 ---
 
 ## ✨ Características Principales
 
-* 🚫 **Sin Marca de Agua**: Extrae el archivo multimedia original desde los servidores de TikTok, evitando compresión adicional y marcas de agua.
+* 🎯 **Multi-Plataforma**: Soporta TikTok (sin marca de agua) e Instagram (reels, posts, stories).
 * 🔒 **Control de Acceso Estricto**: Solo procesa enlaces enviados por usuarios autorizados (mediante su ID de Telegram).
-* 🎯 **Monitoreo Aislado**: Opera silenciosamente en un grupo específico configurado por variables de entorno.
-* 🧹 **Auto-Limpieza de Disco**: Recolector en segundo plano que elimina los videos locales tras X horas, evitando saturación de almacenamiento.
-* 🔄 **Auto-Actualización Inteligente**: Ejecuta una tarea cada 24 horas para actualizar `yt-dlp` vía `pip` y reinicia automáticamente si hay una nueva versión.
-* 👯 **Convive con otros Bots**: Utiliza un archivo de sesión independiente (`sesion_tiktok.session`) y variables de entorno únicas, permitiendo ejecutarlo junto a otros bots sin conflictos.
+* 🧹 **Auto-Limpieza de Disco**: Recolector en segundo plano que elimina los videos locales tras X horas.
+* 🔄 **Auto-Actualización Inteligente**: Actualiza `yt-dlp` cada 24h y reinicia automáticamente si hay nueva versión.
+* ⚙️ **Inicio con Sistema**: Script de arranque y servicio systemd incluidos.
 
 ---
 
 ## 🛠️ Requisitos Previos
 
-* Python 3.9 o superior (testeado compatible con Python 3.14).
-* FFmpeg instalado en el sistema (recomendado por `yt-dlp`).
+* Python 3.9 o superior
+* FFmpeg instalado en el sistema
 
 Instalación de FFmpeg según sistema:
 
-* **Arch Linux**:
-
-  ```bash
-  sudo pacman -S ffmpeg
-  ```
-
-* **Ubuntu / Debian**:
-
-  ```bash
-  sudo apt install ffmpeg
-  ```
-
-* **macOS**:
-
-  ```bash
-  brew install ffmpeg
-  ```
-
-* Credenciales de la API de Telegram (`API_ID` y `API_HASH`) obtenidas en `my.telegram.org`.
+* **Arch Linux**: `sudo pacman -S ffmpeg`
+* **Ubuntu / Debian**: `sudo apt install ffmpeg`
+* **macOS**: `brew install ffmpeg`
 
 ---
 
 ## 📦 Instalación
 
-1. Clona o descarga los archivos en tu máquina local.
+1. Clona o descarga los archivos.
 
-2. Crea un entorno virtual (recomendado):
-
+2. Crea un entorno virtual:
    ```bash
    python -m venv .venv
    ```
 
 3. Activa el entorno virtual:
-
-   * Linux / macOS:
-
-     ```bash
-     source .venv/bin/activate
-     ```
-
-   * Windows:
-
-     ```bash
-     .venv\Scripts\activate
-     ```
+   ```bash
+   source .venv/bin/activate
+   ```
 
 4. Instala las dependencias:
-
    ```bash
    pip install -r requirements.txt
    ```
@@ -80,15 +52,10 @@ Instalación de FFmpeg según sistema:
 
 ## ⚙️ Configuración
 
-Copia o renombra el archivo `.env.example` a `.env` en el mismo directorio que el script y añade tu configuración.
-
-> [!IMPORTANT]
-> Nunca compartas tu archivo `.env`, ya que contiene credenciales de acceso a Telegram.
+Copia `.env.example` a `.env` y configura:
 
 ```env
-# ============================================
 # Credenciales de Telegram
-# ============================================
 API_ID=tu_api_id
 API_HASH=tu_api_hash
 PHONE=+521234567890
@@ -96,13 +63,11 @@ PHONE=+521234567890
 # Usuarios permitidos (IDs separados por comas)
 USUARIOS_AUTORIZADOS=123456789,987654321
 
-# ============================================
-# Configuración del bot de TikTok
-# ============================================
+# Configuración
 LOG_LEVEL=INFO
 CLEANUP_HOURS=168
 
-# ID del grupo de Telegram donde escuchará enlaces (Suele llevar signo menos)
+# Grupo donde escuchará enlaces
 GRUPO_DESTINO_TIKTOK=-1009876543210
 CARPETA_DESCARGAS_TIKTOK=./tiktok_downloads
 ```
@@ -111,24 +76,30 @@ CARPETA_DESCARGAS_TIKTOK=./tiktok_downloads
 
 ## 🚀 Uso
 
-Asegúrate de tener el entorno virtual activado y ejecuta:
-
+### Manual:
 ```bash
-python bot_tiktok.py
+./start_bot.sh
+```
+
+### Con systemd (inicio automático):
+```bash
+sudo cp tiktok-bot.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable tiktok-bot
+sudo systemctl start tiktok-bot
 ```
 
 ---
 
-## 🔑 Primer Inicio de Sesión
+## 📝 Comandos útiles
 
-En la primera ejecución, la terminal solicitará un código de autenticación de 5 dígitos enviado por Telegram a la app oficial.
-
-Una vez introducido, se creará el archivo `sesion_tiktok.session`. A partir de ese momento, el bot iniciará automáticamente sin volver a pedir autenticación.
+* `sudo systemctl status tiktok-bot` - Ver estado
+* `sudo systemctl restart tiktok-bot` - Reiniciar
+* `tail -f bot.log` - Ver logs en tiempo real
 
 ---
 
-## 📝 Notas Adicionales
+## 📋 Enlaces soportados
 
-* **Enlaces Soportados**: Reconoce formatos cortos (`vm.tiktok.com`, `vt.tiktok.com`) y enlaces largos (`tiktok.com/@usuario/...`).
-* **Límites de Telegram**: Los títulos pueden incluir descripciones y hashtags extensos. El bot recorta automáticamente a 90 caracteres para evitar errores en la API al enviar mensajes.
-
+* **TikTok**: `tiktok.com/@usuario/video/xxx`, `vm.tiktok.com/xxx`, `vt.tiktok.com/xxx`
+* **Instagram**: `instagram.com/reel/xxx`, `instagram.com/p/xxx`, `instagram.com/stories/xxx`

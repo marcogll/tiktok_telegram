@@ -1,0 +1,16 @@
+[Unit]
+Description=Bot de TikTok e Instagram para Telegram
+After=network.target
+
+[Service]
+Type=simple
+User=marco
+WorkingDirectory=/home/marco/code/tiktok_telegram
+ExecStart=/home/marco/code/tiktok_telegram/start_bot.sh
+Restart=always
+RestartSec=10
+StandardOutput=append:/home/marco/code/tiktok_telegram/bot.log
+StandardError=append:/home/marco/code/tiktok_telegram/bot.log
+
+[Install]
+WantedBy=multi-user.target

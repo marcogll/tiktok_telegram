@@ -51,14 +51,17 @@ if not os.path.exists(CARPETA_DESCARGAS):
 # Inicializar cliente de Telethon con nombre de sesión único
 client = TelegramClient("sesion_tiktok", API_ID, API_HASH)
 
-# Regex para detectar cualquier enlace de TikTok (web o móvil)
+# Regex para detectar enlaces de TikTok e Instagram
 TIKTOK_REGEX = r"(https?://)?(www\.|vm\.|vt\.)?tiktok\.com/(@[\w.-]+/video/\d+|\w+)"
+INSTAGRAM_REGEX = (
+    r"https?://(?:www\.)?instagram\.com/(?:reel|p|stories)/[\w.-]+(?:/|\?.*)?"
+)
 
 
-def descargar_tiktok(url, carpeta_salida):
+def descargar_video(url, carpeta_salida):
     """
     Descarga el video usando yt-dlp.
-    Por defecto para TikTok, yt-dlp extrae el video SIN marca de agua y SIN el final animado.
+    Soporta TikTok (sin marca de agua) e Instagram.
     """
     ydl_opts = {
         "format": "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best",
@@ -73,8 +76,7 @@ def descargar_tiktok(url, carpeta_salida):
         info_dict = ydl.extract_info(url, download=True)
         archivo = ydl.prepare_filename(info_dict)
 
-        # Extraer el título y limitarlo a 90 caracteres para evitar errores en Telegram
-        titulo_completo = info_dict.get("title", "TikTok Video").strip()
+        titulo_completo = info_dict.get("title", "Video").strip() or "Video"
         titulo = (
             titulo_completo[:90] + "..."
             if len(titulo_completo) > 90
@@ -134,52 +136,61 @@ async def auto_actualizar_ytdlp():
 
 
 @client.on(events.NewMessage(chats=GRUPO_DESTINO))
-async def manejador_tiktok(event):
+async def manejador_social(event):
     if event.sender_id not in USUARIOS_AUTORIZADOS:
         return
 
     texto = event.raw_text
-    match = re.search(TIKTOK_REGEX, texto)
 
-    if match:
-        url = match.group(0)
-        logger.info(f"🔗 Enlace detectado de {event.sender_id}: {url}")
-        mensaje_estado = await event.reply(
-            "⏳ Descargando TikTok (Sin marca de agua)..."
+    match_tiktok = re.search(TIKTOK_REGEX, texto)
+    match_insta = re.search(INSTAGRAM_REGEX, texto)
+
+    if match_tiktok:
+        url = match_tiktok.group(0)
+        plataforma = "TikTok"
+        emoji = "🎵"
+    elif match_insta:
+        url = match_insta.group(0)
+        plataforma = "Instagram"
+        emoji = "📸"
+    else:
+        return
+
+    logger.info(f"🔗 Enlace de {plataforma} detectado de {event.sender_id}: {url}")
+    mensaje_estado = await event.reply(f"⏳ Descargando {plataforma}...")
+
+    try:
+        loop = asyncio.get_running_loop()
+        ruta_archivo, titulo = await loop.run_in_executor(
+            None, descargar_video, url, CARPETA_DESCARGAS
         )
 
-        try:
-            # Manejo de bucle asíncrono moderno (Python 3.14 compatible)
-            loop = asyncio.get_running_loop()
-            ruta_archivo, titulo = await loop.run_in_executor(
-                None, descargar_tiktok, url, CARPETA_DESCARGAS
-            )
+        await mensaje_estado.edit("📤 Video descargado. Subiendo a Telegram...")
 
-            await mensaje_estado.edit("📤 Video descargado. Subiendo a Telegram...")
+        await client.send_file(
+            event.chat_id,
+            ruta_archivo,
+            caption=f"{emoji} {titulo}",
+            reply_to=event.message.id,
+            supports_streaming=True,
+        )
 
-            await client.send_file(
-                event.chat_id,
-                ruta_archivo,
-                caption=f"🎵 {titulo}",
-                reply_to=event.message.id,
-                supports_streaming=True,
-            )
+        await mensaje_estado.delete()
+        logger.info(f"✅ {plataforma} subido exitosamente.")
 
-            await mensaje_estado.delete()
-            logger.info("✅ TikTok subido exitosamente.")
-
-        except Exception as e:
-            await mensaje_estado.edit(
-                f"❌ Ocurrió un error al procesar el video:\n`{str(e)}`"
-            )
-            logger.error(f"Error procesando enlace {url}: {e}")
+    except Exception as e:
+        await mensaje_estado.edit(
+            f"❌ Ocurrió un error al procesar el video:\n`{str(e)}`"
+        )
+        logger.error(f"Error procesando enlace {url}: {e}")
 
 
 async def main():
     await client.start(phone=PHONE)
 
-    logger.info("🤖 Bot de TikTok iniciado correctamente.")
+    logger.info("🤖 Bot de redes sociales iniciado correctamente.")
     logger.info(f"🎯 Escuchando en el grupo: {GRUPO_DESTINO}")
+    logger.info("📱 Plataformas soportadas: TikTok, Instagram")
 
     asyncio.create_task(limpiar_carpeta_periodicamente())
     asyncio.create_task(auto_actualizar_ytdlp())
