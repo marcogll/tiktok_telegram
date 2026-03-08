@@ -8,7 +8,7 @@ Gracias a la integración con `yt-dlp`, los videos se descargan sin marca de agu
 
 ## ✨ Características Principales
 
-* 🎯 **Multi-Plataforma**: Soporta TikTok (sin marca de agua) e Instagram (reels, posts, stories).
+* 🎯 **Multi-Plataforma**: Soporta TikTok (sin marca de agua), Instagram (reels, posts, stories), Facebook y X (Twitter).
 * 🔒 **Control de Acceso Estricto**: Solo procesa enlaces enviados por usuarios autorizados (mediante su ID de Telegram).
 * 🧹 **Auto-Limpieza de Disco**: Recolector en segundo plano que elimina los videos locales tras X horas.
 * 🔄 **Auto-Actualización Inteligente**: Actualiza `yt-dlp` cada 24h y reinicia automáticamente si hay nueva versión.
@@ -124,3 +124,5 @@ sudo systemctl start tiktok-bot
 
 * **TikTok**: `tiktok.com/@usuario/video/xxx`, `vm.tiktok.com/xxx`, `vt.tiktok.com/xxx`
 * **Instagram**: `instagram.com/reel/xxx`, `instagram.com/p/xxx`, `instagram.com/stories/xxx`
+* **Facebook**: `facebook.com/watch/?v=xxx`, `facebook.com/share/v/xxx`, `fb.watch/xxx`
+* **X (Twitter)**: `x.com/usuario/status/xxx`, `twitter.com/usuario/status/xxx`

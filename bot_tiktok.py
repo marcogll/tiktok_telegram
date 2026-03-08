@@ -51,11 +51,13 @@ if not os.path.exists(CARPETA_DESCARGAS):
 # Inicializar cliente de Telethon con nombre de sesión único
 client = TelegramClient("sesion_tiktok", API_ID, API_HASH)
 
-# Regex para detectar enlaces de TikTok e Instagram
+# Regex para detectar enlaces de TikTok, Instagram, Facebook y X
 TIKTOK_REGEX = r"(https?://)?(www\.|vm\.|vt\.)?tiktok\.com/(@[\w.-]+/video/\d+|\w+)"
 INSTAGRAM_REGEX = (
     r"https?://(?:www\.)?instagram\.com/(?:reel|p|stories)/[\w.-]+(?:/|\?.*)?"
 )
+FACEBOOK_REGEX = r"https?://(?:www\.)?(?:facebook\.com|fb\.watch)/[\w\.\?=/&%-]+"
+X_REGEX = r"https?://(?:www\.)?(?:twitter\.com|x\.com)/[\w.-]+/status/\d+"
 
 
 def descargar_video(url, carpeta_salida):
@@ -144,6 +146,8 @@ async def manejador_social(event):
 
     match_tiktok = re.search(TIKTOK_REGEX, texto)
     match_insta = re.search(INSTAGRAM_REGEX, texto)
+    match_fb = re.search(FACEBOOK_REGEX, texto)
+    match_x = re.search(X_REGEX, texto)
 
     if match_tiktok:
         url = match_tiktok.group(0)
@@ -153,6 +157,14 @@ async def manejador_social(event):
         url = match_insta.group(0)
         plataforma = "Instagram"
         emoji = "📸"
+    elif match_fb:
+        url = match_fb.group(0)
+        plataforma = "Facebook"
+        emoji = "👥"
+    elif match_x:
+        url = match_x.group(0)
+        plataforma = "X"
+        emoji = "🐦‍⬛"
     else:
         return
 
@@ -190,7 +202,7 @@ async def main():
 
     logger.info("🤖 Bot de redes sociales iniciado correctamente.")
     logger.info(f"🎯 Escuchando en el grupo: {GRUPO_DESTINO}")
-    logger.info("📱 Plataformas soportadas: TikTok, Instagram")
+    logger.info("📱 Plataformas soportadas: TikTok, Instagram, Facebook, X")
 
     asyncio.create_task(limpiar_carpeta_periodicamente())
     asyncio.create_task(auto_actualizar_ytdlp())
