@@ -1,6 +1,6 @@
-# 🎵 Telegram Social Media Downloader Bot
+# 🎵 Social Downloader Bot
 
-Bot / userbot automatizado en Python que monitorea un grupo específico de Telegram y descarga videos de TikTok e Instagram enviados por usuarios autorizados.
+Bot / userbot automatizado en Python que monitorea un grupo específico de Telegram y descarga videos de TikTok, Instagram, Facebook y X (Twitter) enviados por usuarios autorizados.
 
 Gracias a la integración con `yt-dlp`, los videos se descargan sin marca de agua.
 
@@ -89,8 +89,8 @@ LOG_LEVEL=INFO
 CLEANUP_HOURS=168
 
 # Grupo donde escuchará enlaces
-GRUPO_DESTINO_TIKTOK=-1009876543210
-CARPETA_DESCARGAS_TIKTOK=./tiktok_downloads
+GRUPO_DESTINO=-1009876543210
+CARPETA_DESCARGAS_SOCIAL=./social_downloads
 ```
 
 ---
@@ -104,18 +104,18 @@ CARPETA_DESCARGAS_TIKTOK=./tiktok_downloads
 
 ### Con systemd (inicio automático):
 ```bash
-sudo cp tiktok-bot.service /etc/systemd/system/
+sudo cp social-downloader.service /etc/systemd/system/
 sudo systemctl daemon-reload
-sudo systemctl enable tiktok-bot
-sudo systemctl start tiktok-bot
+sudo systemctl enable social-downloader
+sudo systemctl start social-downloader
 ```
 
 ---
 
 ## 📝 Comandos útiles
 
-* `sudo systemctl status tiktok-bot` - Ver estado
-* `sudo systemctl restart tiktok-bot` - Reiniciar
+* `sudo systemctl status social-downloader` - Ver estado
+* `sudo systemctl restart social-downloader` - Reiniciar
 * `tail -f bot.log` - Ver logs en tiempo real
 
 ---
