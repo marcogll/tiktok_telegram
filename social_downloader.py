@@ -32,8 +32,8 @@ try:
         int(u.strip()) for u in usuarios_str.split(",") if u.strip().isdigit()
     ]
 
-    # Configuraciones de TikTok
-    CARPETA_DESCARGAS = os.getenv("CARPETA_DESCARGAS_TIKTOK", "./tiktok_downloads")
+    # Configuraciones de Social Downloader
+    CARPETA_DESCARGAS = os.getenv("CARPETA_DESCARGAS_SOCIAL", "./social_downloads")
     CLEANUP_HOURS = int(os.getenv("CLEANUP_HOURS", 168))
     GRUPO_DESTINO = int(os.getenv("GRUPO_DESTINO_TIKTOK"))
 
@@ -46,10 +46,10 @@ except TypeError as e:
 # Crear carpeta de descargas si no existe
 if not os.path.exists(CARPETA_DESCARGAS):
     os.makedirs(CARPETA_DESCARGAS)
-    logger.info(f"📁 Carpeta de TikTok creada: {CARPETA_DESCARGAS}")
+    logger.info(f"📁 Carpeta de Social Downloader creada: {CARPETA_DESCARGAS}")
 
 # Inicializar cliente de Telethon con nombre de sesión único
-client = TelegramClient("sesion_tiktok", API_ID, API_HASH)
+client = TelegramClient("sesion_social", API_ID, API_HASH)
 
 # Regex para detectar enlaces de TikTok, Instagram, Facebook y X
 TIKTOK_REGEX = r"(https?://)?(www\.|vm\.|vt\.)?tiktok\.com/(@[\w.-]+/video/\d+|\w+)"

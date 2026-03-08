@@ -1,5 +1,5 @@
 [Unit]
-Description=Bot de TikTok e Instagram para Telegram
+Description=Bot Social Downloader para Telegram
 After=network.target
 
 [Service]

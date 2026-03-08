@@ -11,4 +11,4 @@ fi
 source .venv/bin/activate
 
 echo "🤖 Iniciando bot de redes sociales..."
-exec python3 bot_tiktok.py
+exec python3 social_downloader.py
