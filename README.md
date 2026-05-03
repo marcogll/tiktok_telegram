@@ -11,10 +11,13 @@
 
 # Tiktok Telegram
 
-Bot de Telegram para automatización y gestión de operaciones 🤖
+Bot automatizado para gestión de operaciones 🤖
 
 <p>
-  <img src="https://img.shields.io/badge/español-111111?style=flat-square&logo=googletranslate&logoColor=white" alt="Español">
+  <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/Telegram-26A5E4?style=flat-square&logo=telegram&logoColor=white" alt="Telegram">
+  <img src="https://img.shields.io/badge/Español-111111?style=flat-square&logo=googletranslate&logoColor=white" alt="Español">
+  <img src="https://img.shields.io/badge/website-111111?style=flat-square&logo=github&logoColor=white" alt="Website">
 </p>
 
 ---
@@ -144,5 +147,6 @@ sudo systemctl start social-downloader
 * **Instagram**: `instagram.com/reel/xxx`, `instagram.com/p/xxx`, `instagram.com/stories/xxx`
 * **Facebook**: `facebook.com/watch/?v=xxx`, `facebook.com/share/v/xxx`, `fb.watch/xxx`
 * **X (Twitter)**: `x.com/usuario/status/xxx`, `twitter.com/usuario/status/xxx`
+
 
 
