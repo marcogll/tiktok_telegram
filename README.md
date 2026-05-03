@@ -1,10 +1,20 @@
-# 🎵 Social Downloader Bot
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/marcogll/mg_data_storage/b1b4035928e086f9394baf9988f80f4b0075ae20/soul23/logo/s23_logo_wh.png">
+    <img src="https://raw.githubusercontent.com/marcogll/mg_data_storage/b1b4035928e086f9394baf9988f80f4b0075ae20/soul23/logo/s23_logo_blk.png" alt="Soul23" width="110">
+  </picture>
+</p>
 
-Bot / userbot automatizado en Python que monitorea un grupo específico de Telegram y descarga videos de TikTok, Instagram, Facebook y X (Twitter) enviados por usuarios autorizados.
+<h1 align="center">Social Downloader Bot</h1>
 
-Gracias a la integración con `yt-dlp`, los videos se descargan sin marca de agua.
+<p align="center">
+  Bot / userbot automatizado en Python que monitorea un grupo específico de Telegram y descarga videos de TikTok, Instagram, Facebook y X (Twitter) enviados por usuarios autorizados.
+</p>
 
----
+<p align="center">
+  [![Python](https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://github.com/marcogll)
+</p>
+
 
 ## ✨ Características Principales
 
