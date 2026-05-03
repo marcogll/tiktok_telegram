@@ -1,19 +1,23 @@
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://soul23.mx/logo/s23_logo_wh.png">
-    <img src="https://soul23.mx/logo/s23_logo_blk.png" alt="Soul23" width="110">
-  </picture>
+<div align="center">
+
+<img src="https://soul23.mx/logo/soul23_logo.svg" width="90" alt="Soul23">
+
+# Tiktok Telegram
+
+Automated Telegram bot for social media operations 🤖
+
+<p>
+    <img src="https://img.shields.io/badge/Python-111111?style=flat-square&logo=python&logoColor=white" alt="Python">
+
 </p>
+
+</div>
+
+---
 
 <h1 align="center">Social Downloader Bot</h1>
 
-<p align="center">
-  Bot / userbot automatizado en Python que monitorea un grupo específico de Telegram y descarga videos de TikTok, Instagram, Facebook y X (Twitter) enviados por usuarios autorizados.
-</p>
 
-<p align="center">
-  [![Python](https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://github.com/marcogll)
-</p>
 
 
 ## ✨ Características Principales
@@ -136,3 +140,4 @@ sudo systemctl start social-downloader
 * **Instagram**: `instagram.com/reel/xxx`, `instagram.com/p/xxx`, `instagram.com/stories/xxx`
 * **Facebook**: `facebook.com/watch/?v=xxx`, `facebook.com/share/v/xxx`, `fb.watch/xxx`
 * **X (Twitter)**: `x.com/usuario/status/xxx`, `twitter.com/usuario/status/xxx`
+
